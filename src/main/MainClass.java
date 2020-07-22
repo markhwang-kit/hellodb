@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import db.DBClass;
@@ -24,8 +25,14 @@ public class MainClass {
 		
 //		DBClass.conTest();'
 		DBClass.insert(dto.getName(), dto.getPrice());
-		DBClass.select();
-
+//		ArrayList<FoodTB> list = new ArrayList<FoodTB>();
+		
+		ArrayList<FoodTB> list = DBClass.select();
+		for (FoodTB tb : list) {
+			System.out.println(tb.getNum());
+			System.out.println(tb.getName());
+			System.out.println(tb.getPrice());
+		}
 		
 //		String name = fd.food();
 //		int pri = fd.price();

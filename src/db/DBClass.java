@@ -1,6 +1,9 @@
 package db;
 
 import java.sql.*;
+import java.util.ArrayList;
+
+import dto.FoodTB;
 
 public class DBClass {
 	// 연결
@@ -67,19 +70,28 @@ public class DBClass {
 	}
 
 	// 데이터 보기
-	public static void select() {
+	public static ArrayList<FoodTB> select() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		// 전달 변수(dto 담을 그릇)
+		ArrayList<FoodTB> list = new ArrayList<FoodTB>();
 		try {
 			conn = DBClass.condb();
 			String sql = "SELECT * FROM food_tb";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				System.out.print(rs.getString("num") + ". ");
-				System.out.print(rs.getString("name") + " ");
-				System.out.println(rs.getString("price"));
+				FoodTB dto = new FoodTB();
+				int num = rs.getInt("num");
+				dto.setNum(num);
+				dto.setName(rs.getString("name"));
+				dto.setPrice(rs.getInt("price"));
+				list.add(dto);
+//				System.out.print(rs.getString("num") + ". ");
+//				System.out.print(rs.getString("name") + " ");
+//				System.out.println(rs.getString("price"));
 			}
 
 		} catch (Exception e) {
@@ -100,6 +112,7 @@ public class DBClass {
 				e.printStackTrace();
 			}
 		}
+		return list;
 	}
 
 }
